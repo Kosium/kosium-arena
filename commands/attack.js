@@ -11,7 +11,7 @@ module.exports = {
         let userId = interaction.user.username + '#' + interaction.user.discriminator;
         let otherUserData = interaction.options.get('user').user;
         let otherUserId = otherUserData.username + '#' + otherUserData.discriminator;
-        console.log('usercalled: ', userId, ' userattacked: ', otherUserId);
+        // console.log('usercalled: ', userId, ' userattacked: ', otherUserId);
 
         if (!challenges.usersAreFighting(userId, otherUserId)){
             await interaction.reply('Both users must challenge each other first to fight!');

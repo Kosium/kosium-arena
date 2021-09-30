@@ -11,9 +11,9 @@ let WeaponFactory = function(name, volumeMin, volumeMax, rangeMax){//, damageTyp
 
     this.createWeapon = function(){
         let density = randModule.selectRandomEnum(weaponTraits.MATERIAL).density;
-        console.log('density: ', density);
+        // console.log('density: ', density);
         let mass = (Math.ceil(Math.random() * (volumeMax - volumeMin)) + volumeMin) * density;
-        console.log('volmin ', volumeMin, ' vol max ', volumeMax, 'mass: ', mass);
+        // console.log('volmin ', volumeMin, ' vol max ', volumeMax, 'mass: ', mass);
 
         let damageType = randModule.selectRandomEnum(weaponTraits.DAMAGETYPE);
 

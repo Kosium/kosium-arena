@@ -2,17 +2,17 @@ const WeaponFactory = require('./weaponFactory');
 
 let WEAPONFACTORIES = {
     // 'Staff',
-    // 'Wand',
+    WAND: new WeaponFactory('Wand', 1000, 2000, 24),
     ONEHANDEDSWORD: new WeaponFactory('One Handed Sword', 10000, 20000, 3),
     TWOHANDEDSWORD:  new WeaponFactory('Two Handed Sword', 20000, 30000, 5),
     // 'Longbow',
     // 'Dagger',
-    // 'Crossbow',
+    CROSSBOW: new WeaponFactory('Crossbow', 1000, 5000, 20),
     // 'Spear',
     // 'Pole Arm',
     // 'One Handed Axe',
     // 'Two Handed Axe',
-    // 'Katana',
+    KATANA: new WeaponFactory('Katana', 5000, 10000, 7),
     // 'Short Sword',
     // 'Whip',
     // 'Throwing Knife',
@@ -30,9 +30,9 @@ let WEAPONFACTORIES = {
     // 'Brass Knuckles',
     // 'Trident',
     // 'Flail',
-    // SHURIKEN: 'Shuriken'
+    SHURIKEN: new WeaponFactory('Shuriken', 100, 500, 30)
 };
 
-console.log('weapon factories: ', WEAPONFACTORIES);
+// console.log('weapon factories: ', WEAPONFACTORIES);
 
 exports.WEAPONFACTORIES = WEAPONFACTORIES;
