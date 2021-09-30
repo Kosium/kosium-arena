@@ -23,7 +23,8 @@ let WeaponFactory = function(name, volumeMin, volumeMax, rangeMax){//, damageTyp
         return new weaponModule.Weapon(
             personality + ' ' + cosmetic + ' ' + name,
             mass,
-            damageType
+            damageType,
+            rangeMax
         );
     }
 };
