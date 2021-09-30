@@ -1,7 +1,18 @@
 const weaponFactories = require('./weaponFactoryData');
 const randModule = require('../helpers/selectRandom');
 
+exports.AllCharacters = {
+    //key is userId val is character data
+}
+
+exports.createNewCharacter = function(userId){
+    let char = new character();
+    exports.AllCharacters[userId] = char;
+    return char;
+}
+
 let character = function(){
+    this.hp = 100;
     this.agility = Math.ceil(Math.random() * 200) / 100;
     this.strength = Math.ceil(Math.random() * 200) / 100;
     this.stamina = Math.ceil(Math.random() * 200) / 100;
@@ -16,5 +27,9 @@ let classes = {
     MYSTIC: 'Mystic'
 };
 
-exports.character = character;
+// exports.character = character;
 exports.classes = classes;
+
+exports.characterExists = function(userId){
+    return AllCharacters.hasOwnProperty(userId);
+}

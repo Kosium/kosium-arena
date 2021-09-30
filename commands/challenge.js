@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const challengeModule = require('../models/challenges');
+const charModule = require('../models/character');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,6 +12,11 @@ module.exports = {
         let otherUserData = interaction.options.get('userchallenged').user;
         let otherUserId = otherUserData.username + '#' + otherUserData.discriminator;
         console.log('usercalled: ', userId, ' USERCHALLENGED: ', otherUserId);
+
+        if (!charModule.characterExists(userId)){
+            await interaction.reply('You need a character to challenge another user! Use command /randomCharacter to generate your character.');
+        }
+
         let response = challengeModule.challengeOpponent(userId, otherUserId);
 		await interaction.reply(response);
 	},
