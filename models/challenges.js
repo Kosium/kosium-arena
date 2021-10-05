@@ -4,17 +4,24 @@ let challengedOpponents = {
     //key is userId, val is userId of who you challenged
 };
 
-let initUserPositions = function(userId, otherUserId){
-    charModules.AllCharacters[userId].xPos = -2;
-    charModules.AllCharacters[otherUserId].xPos = 2;
+let initUser = function(userId){
+    charModules.AllCharacters[userId].xPos = charModules.position.MIDDLE;
     charModules.AllCharacters[userId].hp = 100;
-    charModules.AllCharacters[otherUserId].hp = 100;
-}
+    charModules.AllCharacters[userId].buffs = [];
+};
 
 exports.challengeOpponent = function(userId, otherUserId){
     challengedOpponents[userId] = otherUserId;
     if (challengedOpponents.hasOwnProperty(otherUserId)){
-        initUserPositions(userId, otherUserId);
+        initUser(userId);
+        initUser(otherUserId);
+        let userIndexGoesFirst = Math.floor(Math.random() * 2);
+        if (userIndexGoesFirst){
+            charModules.AllCharacters[otherUserId].myTurn = true;
+        }
+        else {
+            charModules.AllCharacters[userId].myTurn = true;
+        }
         return userId + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserId + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
     }
     else {
