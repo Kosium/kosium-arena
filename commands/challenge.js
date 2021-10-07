@@ -18,7 +18,7 @@ module.exports = {
             return;
         }
 
-        let response = challengeModule.challengeOpponent(userId, otherUserId);
+        let response = challengeModule.challengeOpponent(userId, interaction.user.toString(), otherUserId, otherUserData.toString());
 		await interaction.reply(response);
 	},
 };

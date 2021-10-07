@@ -10,7 +10,7 @@ let initUser = function(userId){
     charModules.AllCharacters[userId].buffs = [];
 };
 
-exports.challengeOpponent = function(userId, otherUserId){
+exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, otherUserIdMentionString){
     challengedOpponents[userId] = otherUserId;
     if (challengedOpponents.hasOwnProperty(otherUserId)){
         initUser(userId);
@@ -22,7 +22,7 @@ exports.challengeOpponent = function(userId, otherUserId){
         else {
             charModules.AllCharacters[userId].myTurn = true;
         }
-        return userId + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserId + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
+        return userIdMentionString + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserIdMentionString + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
     }
     else {
         return otherUserId + ' has been challenged! They must challeng you back to begin the match.';

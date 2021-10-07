@@ -3,11 +3,11 @@ const characterModule = require('../models/character');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('moveright')
-		.setDescription('Moves character right.'),
+		.setName('abilityoneinfo')
+		.setDescription('Gets ability one description.'),
 	async execute(interaction) {
         let userId = interaction.user.username + '#' + interaction.user.discriminator;
-        let xPos = characterModule.AllCharacters[userId].moveRight(1);
-		await interaction.reply(userId + ' is at xPos: ' + xPos);
+        let description = characterModule.AllCharacters[userId].class.abilityOneInfo();
+		await interaction.reply(description);
 	},
 };
