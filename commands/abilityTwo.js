@@ -5,8 +5,8 @@ const challenges = require('../models/challenges');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('abilityone')
-		.setDescription('Uses ability one.')
+		.setName('abilitytwo')
+		.setDescription('Uses ability two.')
         .addUserOption((option) => option.setName('user').setDescription('The user to attack if this ability attacks a user').setRequired(true)),
 	async execute(interaction) {
         let userId = interaction.user.username + '#' + interaction.user.discriminator;
@@ -20,7 +20,7 @@ module.exports = {
             await interaction.reply('Both users must challenge each other first to fight!');
             return;
         }
-        let abilityResult = characterModule.AllCharacters[userId].class.abilityOne(otherUserId, otherUserData.toString());
+        let abilityResult = characterModule.AllCharacters[userId].class.abilityTwo(otherUserId, otherUserData.toString());
 		await interaction.reply(interaction.user.toString() + ' used ' + abilityResult);
 	},
 };

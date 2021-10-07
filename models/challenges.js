@@ -25,7 +25,7 @@ exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, o
         return userIdMentionString + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserIdMentionString + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
     }
     else {
-        return otherUserId + ' has been challenged! They must challeng you back to begin the match.';
+        return otherUserId + ' has been challenged! They must challenge you back to begin the match.';
     }
 };
 

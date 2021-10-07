@@ -51,6 +51,8 @@ class character {
     }
 
     update() {
+        console.log('right before updating this is the dodge: ', this.dodge);
+        console.log('right before updating this is the dmg: ', this.dmgMultiplier);
         this.myTurn = !this.myTurn;
         this.updateBuffs();
         this.class.updateComponentState();
@@ -90,12 +92,13 @@ class character {
         if (dist > this.weapon.maxRange){
             return otherUserIdMentionString + ' is out of range!';
         }
-        let attackDodged = Math.random() * 100 < opp.dodge;
-        if (attackDodged){
-            this.update();
-            return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
-        }
-        let dmgDone = this.weapon.baseDPS * 5 * this.dmgMultiplier;
+        console.log('DAMAGE MULTIPLIER WHEN ATTACKING: ', this.dmgMultiplier);
+        // let attackDodged = Math.random() * 100 < opp.dodge;
+        // if (attackDodged){
+        //     this.update();
+        //     return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
+        // }
+        let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
         opp.hp -= dmgDone;
         // this.lastAttackTime = Date.now();
         let returnString = '';
