@@ -4,21 +4,28 @@ let challengedOpponents = {
     //key is userId, val is userId of who you challenged
 };
 
-let initUserPositions = function(userId, otherUserId){
-    charModules.AllCharacters[userId].xPos = -2;
-    charModules.AllCharacters[otherUserId].xPos = 2;
+let initUser = function(userId){
+    charModules.AllCharacters[userId].xPos = charModules.position.MIDDLE;
     charModules.AllCharacters[userId].hp = 100;
-    charModules.AllCharacters[otherUserId].hp = 100;
-}
+    charModules.AllCharacters[userId].buffs = [];
+};
 
-exports.challengeOpponent = function(userId, otherUserId){
+exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, otherUserIdMentionString){
     challengedOpponents[userId] = otherUserId;
     if (challengedOpponents.hasOwnProperty(otherUserId)){
-        initUserPositions(userId, otherUserId);
-        return userId + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserId + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
+        initUser(userId);
+        initUser(otherUserId);
+        let userIndexGoesFirst = Math.floor(Math.random() * 2);
+        if (userIndexGoesFirst){
+            charModules.AllCharacters[otherUserId].myTurn = true;
+        }
+        else {
+            charModules.AllCharacters[userId].myTurn = true;
+        }
+        return userIdMentionString + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserIdMentionString + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
     }
     else {
-        return otherUserId + ' has been challenged! They must challeng you back to begin the match.';
+        return otherUserId + ' has been challenged! They must challenge you back to begin the match.';
     }
 };
 
@@ -44,6 +51,8 @@ exports.usersAreFighting = function(userId, otherUserId){
 
 exports.endFight = function(userId){
     let otherUserId = challengedOpponents[userId];
+    charModules.AllCharacters[userId].removeBuffs();
+    charModules.AllCharacters[otherUserId].removeBuffs();
     delete challengedOpponents[userId];
     delete challengedOpponents[otherUserId];
 };

@@ -2,9 +2,17 @@ const weaponFactories = require('./weaponFactoryData');
 const randModule = require('../helpers/selectRandom');
 const { runInThisContext } = require('vm');
 const challengeModule = require('../models/challenges');
+const Ninja = require('./Ninja');
+const buff = require('./buff');
 
 exports.AllCharacters = {
     //key is userId val is character data
+}
+
+exports.position = {
+    CLOSE: 0,
+    MIDDLE: 1,
+    FAR: 2
 }
 
 exports.createNewCharacter = function(userId){
@@ -13,63 +21,111 @@ exports.createNewCharacter = function(userId){
     return char;
 }
 
-let character = function(userId){
-    this.userId = userId;
-    this.xPos = 0;
-    this.hp = 100;
-    this.agility = Math.ceil(Math.random() * 200) / 100;
-    this.strength = Math.ceil(Math.random() * 200) / 100;
-    this.stamina = Math.ceil(Math.random() * 200) / 100;
-    let classKeys = Object.keys(classes);
-    this.class = classes[classKeys[Math.floor(Math.random() * classKeys.length)]];
-    this.weapon = randModule.selectRandomEnum(weaponFactories.WEAPONFACTORIES).createWeapon();
-    this.lastAttackTime = Date.now() - 100000;
+class character {
+    constructor(userId){
+        this.userId = userId;
+        this.xPos = exports.position.MIDDLE;
+        this.agility = Math.ceil(Math.random() * 200) / 100;
+        let statsLeft = 3 - this.agility;
+        this.strength = Math.ceil(Math.random() * Math.min(200, statsLeft * 100)) / 100;
+        statsLeft -= this.strength;
+        this.stamina = Math.ceil(Math.random() * Math.min(200, statsLeft * 100)) / 100;
+        this.hp = 100 + 25 * this.stamina;
+        this.dodge = 5 + 22.5 * this.agility;
+        this.dmgMultiplier = 1 + this.strength / 2;
+        let classKeys = Object.keys(classComponents);
+        let randomClassIndex = 0; //Math.floor(Math.random() * classKeys.length);
+        this.weapon = randModule.selectRandomEnum(weaponFactories.WEAPONFACTORIES).createWeapon();
+        this.buffs = [];
+        this.myTurn = false;
+        this.class = new classComponents[classKeys[randomClassIndex]](this);
+    }
 
-    this.moveLeft = function(distanceInMeters){
+    removeBuffs(){
+        for (let i = 0; i < this.buffs.length; ++i){
+            this.buffs[i].removeBuff();
+        }
+        this.buffs = [];
+    }
+
+    updateBuffs() {
+        for(let i = 0; i < this.buffs.length; ++i){
+            if (this.buffs[i].updateBuff()){
+                this.buffs.splice(i, 1);
+                --i;
+            }
+        }
+    }
+
+    update() {
+        this.myTurn = !this.myTurn;
+        this.updateBuffs();
+        this.class.updateComponentState();
+    }
+
+    // this.lastAttackTime = Date.now() - 100000;
+
+    moveUp(distanceInMeters) {
         this.xPos -= distanceInMeters;
-        if (this.xPos < 0){
-            this.xPos = 0;
+        if (this.xPos < exports.position.CLOSE){
+            this.xPos = exports.position.CLOSE;
         }
-        return this.xPos;
-    }
-    this.moveRight = function(distanceInMeters){
-        this.xPos += distanceInMeters;
-        if (this.xPos > 100){
-            this.xPos = 100;
-        }
+        this.update();
         return this.xPos;
     }
 
-    this.attack = function(opp){
-        let timeSinceLastAttack = Date.now() - this.lastAttackTime;
-        if (timeSinceLastAttack <= this.weapon.timeToAttackInMs){
-            let timeLeftInMs = this.weapon.timeToAttackInMs - timeSinceLastAttack;
-            return this.userId + ' cannot attack for another ' + timeLeftInMs + ' ms';
+    moveBack(distanceInMeters){
+        this.xPos += distanceInMeters;
+        if (this.xPos > exports.position.FAR){
+            this.xPos = exports.position.FAR;
         }
-        let dist = Math.abs(this.xPos - opp.xPos);
+        this.update();
+        return this.xPos;
+    }
+
+    round(num){
+        return Math.round(num * 100) / 100;
+    }
+
+    attack(opp, userIdMentionString, otherUserIdMentionString){
+        // let timeSinceLastAttack = Date.now() - this.lastAttackTime;
+        // if (timeSinceLastAttack <= this.weapon.timeToAttackInMs){
+        //     let timeLeftInMs = this.weapon.timeToAttackInMs - timeSinceLastAttack;
+        //     return this.userId + ' cannot attack for another ' + timeLeftInMs + ' ms';
+        // }
+        let dist = this.xPos + opp.xPos - 1;
         if (dist > this.weapon.maxRange){
-            return opp.userId + ' is out of range!';
+            return otherUserIdMentionString + ' is out of range!';
         }
-        opp.hp -= this.weapon.damagePerAttack;
-        this.lastAttackTime = Date.now();
+        let attackDodged = Math.random() * 100 < opp.dodge;
+        if (attackDodged){
+            this.update();
+            return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
+        }
+        let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
+        opp.hp -= dmgDone;
+        // this.lastAttackTime = Date.now();
+        let returnString = '';
         if (opp.hp > 0){
-            return this.userId + ' has hit ' + opp.userId + ' for ' + this.weapon.damagePerAttack + ' damage. ' + opp.userId + ' has ' + opp.hp + ' hp left!';
+            returnString = userIdMentionString + ' has hit ' + otherUserIdMentionString + ' for ' + this.round(dmgDone) + ' damage. ' + otherUserIdMentionString + ' has ' + this.round(opp.hp) + ' hp left!';
         }
         else {
             challengeModule.endFight(this.userId);
-            return this.userId + ' HAS DEFEATED ' + opp.userId;
+            returnString = userIdMentionString + ' HAS DEFEATED ' + otherUserIdMentionString;
         }
+        this.update();
+        return returnString;
     }
 };
 
-let classes = {
-    NINJA: 'Ninja',
+let classComponents = {
+    NINJA: Ninja,
     SOLDIER: 'Soldier',
     MYSTIC: 'Mystic'
 };
 
 // exports.character = character;
-exports.classes = classes;
+exports.classes = classComponents;
 
 exports.characterExists = function(userId){
     return exports.AllCharacters.hasOwnProperty(userId);
