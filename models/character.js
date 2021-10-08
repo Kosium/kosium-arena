@@ -97,11 +97,11 @@ class character {
         if (dist > this.weapon.maxRange){
             return otherUserIdMentionString + ' is out of range!';
         }
-        // let attackDodged = Math.random() * 100 < opp.dodge;
-        // if (attackDodged){
-        //     this.update();
-        //     return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
-        // }
+        let attackDodged = Math.random() * 100 < opp.dodge;
+        if (attackDodged){
+            this.update();
+            return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
+        }
         let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
         opp.hp -= dmgDone;
         // this.lastAttackTime = Date.now();

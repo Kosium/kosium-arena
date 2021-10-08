@@ -51,8 +51,8 @@ exports.usersAreFighting = function(userId, otherUserId){
 
 exports.endFight = function(userId){
     let otherUserId = challengedOpponents[userId];
-    challengedOpponents[userId].removeBuffs();
-    challengedOpponents[otherUserId].removeBuffs();
+    charModules.AllCharacters[userId].removeBuffs();
+    charModules.AllCharacters[otherUserId].removeBuffs();
     delete challengedOpponents[userId];
     delete challengedOpponents[otherUserId];
 };
