@@ -41,6 +41,13 @@ class character {
         this.class = new classComponents[classKeys[randomClassIndex]](this);
     }
 
+    removeBuffs(){
+        for (let i = 0; i < this.buffs.length; ++i){
+            this.buffs[i].removeBuff();
+        }
+        this.buffs = [];
+    }
+
     updateBuffs() {
         for(let i = 0; i < this.buffs.length; ++i){
             if (this.buffs[i].updateBuff()){
@@ -51,8 +58,6 @@ class character {
     }
 
     update() {
-        console.log('right before updating this is the dodge: ', this.dodge);
-        console.log('right before updating this is the dmg: ', this.dmgMultiplier);
         this.myTurn = !this.myTurn;
         this.updateBuffs();
         this.class.updateComponentState();
@@ -92,7 +97,6 @@ class character {
         if (dist > this.weapon.maxRange){
             return otherUserIdMentionString + ' is out of range!';
         }
-        console.log('DAMAGE MULTIPLIER WHEN ATTACKING: ', this.dmgMultiplier);
         // let attackDodged = Math.random() * 100 < opp.dodge;
         // if (attackDodged){
         //     this.update();

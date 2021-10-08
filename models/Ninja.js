@@ -6,6 +6,11 @@ let Ninja = function(character){
     this.char = character;
     this.abilityOneCooldown = 10;
     this.abilityOneCooldownLeft = 0;
+    this.abilityTwoCooldown = 8;
+    this.abilityTwoCooldownLeft = 0;
+    this.abilityThreeCooldown = 10;
+    this.abilityThreeCooldownLeft = 0;
+
 
     this.toJSON = function(){
         return "Ninja";
@@ -38,6 +43,10 @@ let Ninja = function(character){
     };
 
     this.abilityTwo = function(otherUserId, otherUserIdMentionString){
+        if (this.abilityTwoCooldownLeft > 0){
+            return "Ability still cooling down for another: ", this.abilityTwoCooldownLeft, " turns.";
+        }
+        this.abilityTwoCooldownLeft = this.abilityTwoCooldown;
         let dodgeBuff = new buff({
             property: 'dodge',
             turns: 1,
@@ -62,11 +71,24 @@ let Ninja = function(character){
     };
 
     this.abilityThree = function(){
-        //
+        if (this.abilityThreeCooldownLeft > 0){
+            return "Ability still cooling down for another: ", this.abilityThreeCooldownLeft, " turns.";
+        }
+        this.abilityThreeCooldownLeft = this.abilityThreeCooldown;
+        let hpBuff = new buff({
+            property: 'hp',
+            turns: 4,
+            buffValue: 50,
+            char: this.char
+        });
         this.update();
+        this.char.buffs.push(hpBuff);
+        hpBuff.applyBuff();
+        this.update();
+        return "LAST STAND: Increase health by 50 for 4 turns.";
     };
     this.abilityThreeInfo = function(){
-        return "ability three";
+        return "LAST STAND: Increase health by 50 for 4 turns.";
     };
 }
 

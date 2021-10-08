@@ -7,8 +7,6 @@ module.exports = function({property, turns, delay = -1, buffValue, char}){
     this.applied = false;
 
     this.updateBuff = function(){
-        console.log('updating turns left: ', this.turns);
-        console.log('updating delay left: ', this.delay);
         if (this.delay > 1){
             --this.delay;
             return false;
@@ -29,10 +27,7 @@ module.exports = function({property, turns, delay = -1, buffValue, char}){
         if (this.applied){
             return;
         }
-        console.log('applying buff ' + this.buffValue + ' to ', this.property);
-        console.log(this.char[this.property]);
         this.char[this.property] += this.buffValue;
-        console.log(this.char[this.property]);
         this.applied = true;
     }
 
