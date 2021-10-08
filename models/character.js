@@ -26,10 +26,12 @@ class character {
         this.userId = userId;
         this.xPos = exports.position.MIDDLE;
         this.agility = Math.ceil(Math.random() * 200) / 100;
-        let statsLeft = 3 - this.agility;
-        this.strength = Math.ceil(Math.random() * Math.min(200, statsLeft * 100)) / 100;
-        statsLeft -= this.strength;
-        this.stamina = Math.ceil(Math.random() * Math.min(200, statsLeft * 100)) / 100;
+        this.strength = Math.ceil(Math.random() * 200) / 100;
+        this.stamina = Math.ceil(Math.random() * 200) / 100;
+        let statSum = this.agility + this.stamina + this.strength;
+        this.agility = this.agility / statSum * 3;
+        this.strength = this.strength / statSum * 3;
+        this.stamina = this.stamina / statSum * 3;
         this.hp = 100 + 25 * this.stamina;
         this.dodge = 5 + 22.5 * this.agility;
         this.dmgMultiplier = 1 + this.strength / 2;
