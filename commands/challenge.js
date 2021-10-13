@@ -8,9 +8,9 @@ module.exports = {
 		.setDescription('Replies with challenge status.')
         .addUserOption((option) => option.setName('userchallenged').setDescription('The user to challenge').setRequired(true)),
 	async execute(interaction) {
-        let userId = interaction.user.username + '#' + interaction.user.discriminator;
+        let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         let otherUserData = interaction.options.get('userchallenged').user;
-        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator;
+        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator + interaction.channelId;
         // console.log('usercalled: ', userId, ' USERCHALLENGED: ', otherUserId);
 
         if (!charModule.characterExists(userId)){

@@ -27,6 +27,7 @@ let otherUserObj = {
 let interaction = function(user, otherUser){ 
     return {
         user: user,
+        channelId: '1',
         options: {
             get: function(string){
                 return {
@@ -59,10 +60,17 @@ describe('Battle Test', function() {
         await challengeModule.execute(otherUserInteraction);
         await moveUpModule.execute(userInteraction);
         await moveUpModule.execute(otherUserInteraction);
+
         await abilityOneModule.execute(userInteraction);
         await abilityOneModule.execute(otherUserInteraction);
+        await attackModule.execute(userInteraction);
+        await attackModule.execute(otherUserInteraction);
         await abilityTwoModule.execute(userInteraction);
         await abilityTwoModule.execute(otherUserInteraction);
+        await attackModule.execute(userInteraction);
+        await attackModule.execute(otherUserInteraction);
+        await attackModule.execute(userInteraction);
+        await attackModule.execute(otherUserInteraction);
         await abilityThreeModule.execute(userInteraction);
         await abilityThreeModule.execute(otherUserInteraction);
 

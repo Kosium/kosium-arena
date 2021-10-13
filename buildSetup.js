@@ -4,4 +4,4 @@ exports.buildOptions = {
     PROD: 2
 };
 
-exports.buildStatus = 1;
+exports.buildStatus = 2;

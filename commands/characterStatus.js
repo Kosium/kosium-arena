@@ -4,17 +4,12 @@ const challengesModule = require('../models/challenges');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('randomcharacter')
-		.setDescription('Replies with Random Char!'),
+		.setName('characterstatus')
+		.setDescription('Replies with staus of character!'),
 	async execute(interaction) {
         let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
 
-		if (challengesModule.userIsInFight(userId)){
-			await interaction.reply('You cannot create a new character in the middle of a fight!');
-			return;
-		}
-
-        let char = new characterModule.createNewCharacter(userId);
+        let char = characterModule.AllCharacters.hasOwnProperty(userId) ? characterModule.AllCharacters[userId] : 'You need to create a character first!';
 		await interaction.reply(JSON.stringify(char, null, 2));
 	},
 };

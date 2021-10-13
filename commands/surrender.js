@@ -8,7 +8,7 @@ module.exports = {
 		.setName('surrender')
 		.setDescription('Surrenders.'),
 	async execute(interaction) {
-        let userId = interaction.user.username + '#' + interaction.user.discriminator;
+        let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         challengeModule.endFight(userId);
 		await interaction.reply(userId + ' has surrendered!');
 	},

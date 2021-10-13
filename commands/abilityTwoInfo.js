@@ -6,7 +6,7 @@ module.exports = {
 		.setName('abilitytwoinfo')
 		.setDescription('Gets ability two description.'),
 	async execute(interaction) {
-        let userId = interaction.user.username + '#' + interaction.user.discriminator;
+        let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         let description = characterModule.AllCharacters[userId].class.abilityTwoInfo();
 		await interaction.reply(description);
 	},

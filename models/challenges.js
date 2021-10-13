@@ -51,6 +51,10 @@ exports.usersAreFighting = function(userId, otherUserId){
     return userIdHasChallenged && otherUserIdHasChallenged;
 };
 
+exports.userIsFighting = function(userId){
+    return exports.usersAreFighting(userId, challengedOpponents[userId]);
+}
+
 exports.doneWithTurn = function(userId){
     //end my turn
     charModules.AllCharacters[userId].myTurn = false;

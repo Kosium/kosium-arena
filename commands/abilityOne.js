@@ -9,9 +9,9 @@ module.exports = {
 		.setDescription('Uses ability one.')
         .addUserOption((option) => option.setName('user').setDescription('The user to attack if this ability attacks a user').setRequired(true)),
 	async execute(interaction) {
-        let userId = interaction.user.username + '#' + interaction.user.discriminator;
+        let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         let otherUserData = interaction.options.get('user').user;
-        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator;
+        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator + interaction.channelId;
         if (buildSetup.buildStatus == buildSetup.buildOptions.PROD && !characterModule.AllCharacters[userId].myTurn){
             return "Not my turn!";
         }

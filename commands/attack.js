@@ -10,9 +10,9 @@ module.exports = {
 		.setDescription('Replies with attack status.')
         .addUserOption((option) => option.setName('user').setDescription('The user to attack').setRequired(true)),
 	async execute(interaction) {
-        let userId = interaction.user.username + '#' + interaction.user.discriminator;
+        let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         let otherUserData = interaction.options.get('user').user;
-        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator;
+        let otherUserId = otherUserData.username + '#' + otherUserData.discriminator + interaction.channelId;
         // console.log('usercalled: ', userId, ' userattacked: ', otherUserId);
 
         if (!challenges.usersAreFighting(userId, otherUserId)){
