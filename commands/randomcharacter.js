@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const charModule = require('../models/character');
+const characterModule = require('../models/character');
 const challengesModule = require('../models/challenges');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 			return;
 		}
 
-        let char = new charModule.createNewCharacter(userId);
+        let char = new characterModule.createNewCharacter(userId);
 		await interaction.reply(JSON.stringify(char, null, 2));
 	},
 };

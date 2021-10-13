@@ -2,11 +2,18 @@
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "chai": "^4.3.4",
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.1.0"
   },
   "scripts": {
     "deploy": "node deploy-commands.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "mocha --timeout 12000",
+    "test-coverage": "nyc mocha --timeout 12000"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0"
   }
 }

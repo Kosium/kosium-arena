@@ -22,10 +22,12 @@ exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, o
         else {
             charModules.AllCharacters[userId].myTurn = true;
         }
-        return userIdMentionString + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserIdMentionString + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' + 'NOW FIGHT!';
+        let userIdMentionStringGoingFirst = userIndexGoesFirst ? otherUserIdMentionString : userIdMentionString;
+        return userIdMentionString + ' is at x position: ' + charModules.AllCharacters[userId].xPos + ' meters and ' + otherUserIdMentionString + ' is at x position: ' + charModules.AllCharacters[otherUserId].xPos + ' meters. ' 
+        + userIdMentionStringGoingFirst + ' goes first. NOW FIGHT!';
     }
     else {
-        return otherUserId + ' has been challenged! They must challenge you back to begin the match.';
+        return otherUserIdMentionString + ' has been challenged! They must challenge you back to begin the match.';
     }
 };
 
@@ -47,6 +49,14 @@ exports.usersAreFighting = function(userId, otherUserId){
         otherUserIdHasChallenged = true;
     }
     return userIdHasChallenged && otherUserIdHasChallenged;
+};
+
+exports.doneWithTurn = function(userId){
+    //end my turn
+    charModules.AllCharacters[userId].myTurn = false;
+    //start opponent's turn
+    let otherUserId = challengedOpponents[userId];
+    charModules.AllCharacters[otherUserId].myTurn = true;
 };
 
 exports.endFight = function(userId){

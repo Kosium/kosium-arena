@@ -1,6 +1,7 @@
 exports.buildOptions = {
     DEV: 0,
-    PROD: 1
+    TEST: 1,
+    PROD: 2
 };
 
-exports.buildStatus = 0;
+exports.buildStatus = 1;

@@ -5,5 +5,4 @@ let attackUser = function(userId, userIdMentionString, otherUserId, otherUserIdM
     let opp = characterModule.AllCharacters[otherUserId];
     return char.attack(opp, userIdMentionString, otherUserIdMentionString);
 };
-
 exports.attackUser = attackUser;

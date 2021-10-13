@@ -32,7 +32,7 @@ class character {
         this.agility = this.agility / statSum * 3;
         this.strength = this.strength / statSum * 3;
         this.stamina = this.stamina / statSum * 3;
-        this.hp = 100 + 25 * this.stamina;
+        this.hp = 100 + 50 * this.stamina;
         this.dodge = 5 + 22.5 * this.agility;
         this.dmgMultiplier = 1 + this.strength / 2;
         let classKeys = Object.keys(classComponents);
