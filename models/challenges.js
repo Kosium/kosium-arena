@@ -12,7 +12,7 @@ let initUser = function(userId){
 
 exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, otherUserIdMentionString){
     challengedOpponents[userId] = otherUserId;
-    if (challengedOpponents.hasOwnProperty(otherUserId)){
+    if (challengedOpponents.hasOwnProperty(otherUserId) && challengedOpponents[otherUserId] == userId){
         initUser(userId);
         initUser(otherUserId);
         let userIndexGoesFirst = Math.floor(Math.random() * 2);
@@ -48,6 +48,7 @@ exports.usersAreFighting = function(userId, otherUserId){
     if (challengedOpponents.hasOwnProperty(otherUserId) && challengedOpponents[otherUserId] == userId){
         otherUserIdHasChallenged = true;
     }
+    // console.log('userIdHasChallenged: ', userIdHasChallenged, ' otherUserIdHasChallenged: ', otherUserIdHasChallenged, ' userId: ', userId, ' otherUserId: ', otherUserId);
     return userIdHasChallenged && otherUserIdHasChallenged;
 };
 

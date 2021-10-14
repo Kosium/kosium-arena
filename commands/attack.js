@@ -26,8 +26,8 @@ module.exports = {
         }
 
         let attackResponse = attackModule.attackUser(userId, interaction.user.toString(), otherUserId, otherUserData.toString());
-		await interaction.reply(attackResponse);
-        if (challenges.usersAreFighting(userId, otherUserId)){
+		await interaction.reply(attackResponse.result);
+        if (attackResponse.success && challenges.usersAreFighting(userId, otherUserId)){
             challenges.doneWithTurn(userId);
         }
 	},

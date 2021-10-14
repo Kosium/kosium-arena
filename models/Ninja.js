@@ -20,11 +20,20 @@ let Ninja = function(character){
         if (this.abilityOneCooldownLeft > 0){
             --this.abilityOneCooldownLeft;
         }
+        if (this.abilityTwoCooldownLeft > 0){
+            --this.abilityTwoCooldownLeft;
+        }
+        if (this.abilityThreeCooldownLeft > 0){
+            --this.abilityThreeCooldownLeft;
+        }
     };
 
     this.abilityOne = function(otherUserId, otherUserIdMentionString){
         if (this.abilityOneCooldownLeft > 0){
-            return "Ability still cooling down for another: ", this.abilityOneCooldownLeft, " turns.";
+            return {
+                success: false, 
+                result: "Ability One still cooling down for another: " + this.abilityOneCooldownLeft + " turns."
+            };
         }
         this.abilityOneCooldownLeft = this.abilityOneCooldown;
         let dodgeBuff = new buff({
@@ -36,7 +45,10 @@ let Ninja = function(character){
         this.update();
         this.char.buffs.push(dodgeBuff);
         dodgeBuff.applyBuff();
-        return "EVADE: +50% dodge chance for two turns.";
+        return {
+            success: true, 
+            result: "EVADE: +50% dodge chance for two turns."
+        };
     };
     this.abilityOneInfo = function(){
         return "EVADE: +50% dodge chance for two turns."
@@ -44,7 +56,10 @@ let Ninja = function(character){
 
     this.abilityTwo = function(otherUserId, otherUserIdMentionString){
         if (this.abilityTwoCooldownLeft > 0){
-            return "Ability still cooling down for another: ", this.abilityTwoCooldownLeft, " turns.";
+            return {
+                success: false,
+                result: "Ability Two still cooling down for another: " + this.abilityTwoCooldownLeft + " turns."
+            };
         }
         this.abilityTwoCooldownLeft = this.abilityTwoCooldown;
         let dodgeBuff = new buff({
@@ -64,7 +79,10 @@ let Ninja = function(character){
         this.char.buffs.push(dodgeBuff);
         this.char.buffs.push(dmgBuff);
         dodgeBuff.applyBuff();
-        return "SHADOW BACKSTAB: Disappear for 1 turn causing the enemy attack to miss. Reappear behind the enemy and backstab them dealing 300% damage!"
+        return {
+            success: true,
+            result: "SHADOW BACKSTAB: Disappear for 1 turn causing the enemy attack to miss. Reappear behind the enemy and backstab them dealing 300% damage!"
+        };
     };
     this.abilityTwoInfo = function(){
         return "SHADOW BACKSTAB: Disappear for 1 turn causing the enemy attack to miss. Reappear behind the enemy and backstab them dealing 300% damage!";
@@ -72,7 +90,10 @@ let Ninja = function(character){
 
     this.abilityThree = function(){
         if (this.abilityThreeCooldownLeft > 0){
-            return "Ability still cooling down for another: ", this.abilityThreeCooldownLeft, " turns.";
+            return {
+                success: false,
+                result: "Ability Three still cooling down for another: " + this.abilityThreeCooldownLeft + " turns."
+            };
         }
         this.abilityThreeCooldownLeft = this.abilityThreeCooldown;
         let hpBuff = new buff({
@@ -85,7 +106,10 @@ let Ninja = function(character){
         this.char.buffs.push(hpBuff);
         hpBuff.applyBuff();
         this.update();
-        return "LAST STAND: Increase health by 50 for 4 turns.";
+        return {
+            success: true,
+            result: "LAST STAND: Increase health by 50 for 4 turns."
+        };
     };
     this.abilityThreeInfo = function(){
         return "LAST STAND: Increase health by 50 for 4 turns.";

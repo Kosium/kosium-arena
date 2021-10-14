@@ -21,8 +21,8 @@ module.exports = {
             return;
         }
         let abilityResult = characterModule.AllCharacters[userId].class.abilityTwo(otherUserId, otherUserData.toString());
-		await interaction.reply(interaction.user.toString() + ' used ' + abilityResult);
-        if (challenges.usersAreFighting(userId, otherUserId)){
+		await interaction.reply(interaction.user.toString() + ' used ' + abilityResult.result);
+        if (abilityResult.success && challenges.usersAreFighting(userId, otherUserId)){
             challenges.doneWithTurn(userId);
         }
 	},

@@ -97,12 +97,18 @@ class character {
         // }
         let dist = this.xPos + opp.xPos - 1;
         if (dist > this.weapon.maxRange){
-            return otherUserIdMentionString + ' is out of range!';
+            return {
+                success: false,
+                result: otherUserIdMentionString + ' is out of range!'
+            };
         }
         let attackDodged = Math.random() * 100 < opp.dodge;
         if (attackDodged){
             this.update();
-            return userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!";
+            return {
+                success: true,
+                result: userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!"
+            };
         }
         let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
         opp.hp -= dmgDone;
@@ -116,7 +122,10 @@ class character {
             returnString = userIdMentionString + ' HAS DEFEATED ' + otherUserIdMentionString;
         }
         this.update();
-        return returnString;
+        return {
+            success: true,
+            result: returnString
+        };
     }
 };
 
