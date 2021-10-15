@@ -39,7 +39,7 @@ class character {
         this.dmgMultiplier = 1 + this.strength / 2;
         this.dmgReduction = 1;
         let classKeys = Object.keys(classComponents);
-        let randomClassIndex = 1;//Math.floor(Math.random() * classKeys.length);
+        let randomClassIndex = Math.floor(Math.random() * classKeys.length);
         this.weapon = randModule.selectRandomEnum(weaponFactories.WEAPONFACTORIES).createWeapon();
         this.buffsMap = {}; //key is buff uniqueName and value is buff
         this.myTurn = false;
