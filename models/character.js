@@ -107,7 +107,7 @@ class character {
             this.update();
             return {
                 success: true,
-                result: userIdMentionString + " has DODGED " + otherUserIdMentionString + "'s attack!"
+                result: otherUserIdMentionString + " has DODGED " + userIdMentionString + "'s attack!"
             };
         }
         let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
