@@ -3,7 +3,9 @@ const randModule = require('../helpers/selectRandom');
 const { runInThisContext } = require('vm');
 const challengeModule = require('../models/challenges');
 const Ninja = require('./Ninja');
+const Soldier = require('./Soldier');
 const buff = require('./buff');
+const weaponModule = require('./weapon');
 
 exports.AllCharacters = {
     //key is userId val is character data
@@ -35,25 +37,51 @@ class character {
         this.hp = 100 + 50 * this.stamina;
         this.dodge = 5 + 22.5 * this.agility;
         this.dmgMultiplier = 1 + this.strength / 2;
+        this.dmgReduction = 1;
         let classKeys = Object.keys(classComponents);
-        let randomClassIndex = 0; //Math.floor(Math.random() * classKeys.length);
+        let randomClassIndex = 1;//Math.floor(Math.random() * classKeys.length);
         this.weapon = randModule.selectRandomEnum(weaponFactories.WEAPONFACTORIES).createWeapon();
-        this.buffs = [];
+        this.buffsMap = {}; //key is buff uniqueName and value is buff
         this.myTurn = false;
         this.class = new classComponents[classKeys[randomClassIndex]](this);
     }
 
-    removeBuffs(){
-        for (let i = 0; i < this.buffs.length; ++i){
-            this.buffs[i].removeBuff();
+    damageTypeDebuffsCount(){
+        let numDmgTypeDebuffs = 0;
+        Object.keys(this.buffsMap).forEach(elementKey => {
+            let element = this.buffsMap[elementKey];
+            if (element.isDamageEffect){
+                ++numDmgTypeDebuffs;
+            }
+        });
+        return numDmgTypeDebuffs;
+    }
+
+    addBuff(buffToAdd){
+        let map = buffToAdd.char.buffsMap;
+        if (map.hasOwnProperty(buffToAdd.uniqueName)){
+            map[buffToAdd.uniqueName].turns = buffToAdd.turns;
+            return; 
         }
-        this.buffs = [];
+        map[buffToAdd.uniqueName] = buffToAdd;
+    }
+
+    removeBuffs(){
+        let buffKeys = Object.keys(this.buffsMap);
+        for (let i = 0; i < buffKeys.length; ++i){
+            this.buffsMap[buffKeys[i]].removeBuff();
+        }
+        this.buffsMap = {};
     }
 
     updateBuffs() {
-        for(let i = 0; i < this.buffs.length; ++i){
-            if (this.buffs[i].updateBuff()){
-                this.buffs.splice(i, 1);
+        let buffKeys = Object.keys(this.buffsMap);
+        for(let i = 0; i < buffKeys.length; ++i){
+            let buffKey_i = buffKeys[i];
+            let buff_i = this.buffsMap[buffKey_i];
+            // console.log('buffKey: ', buffKey_i, ' buff_i ', buff_i);
+            if (buff_i != undefined && buff_i.updateBuff()){
+                delete this.buffsMap[buffKeys[i]];
                 --i;
             }
         }
@@ -89,6 +117,18 @@ class character {
         return Math.round(num * 100) / 100;
     }
 
+    applyWeaponEffect(opp){
+        let weaponHasEffect = this.weapon.weaponBuffParams != null;
+        if (!weaponHasEffect){
+            return '';
+        }
+
+        this.weapon.weaponBuffParams.char = opp;
+        let weaponDebuff = new buff(this.weapon.weaponBuffParams);
+        opp.addBuff(weaponDebuff);
+        return weaponModule.weaponEffectDisplayString(weaponDebuff);
+    }
+
     attack(opp, userIdMentionString, otherUserIdMentionString){
         // let timeSinceLastAttack = Date.now() - this.lastAttackTime;
         // if (timeSinceLastAttack <= this.weapon.timeToAttackInMs){
@@ -110,7 +150,7 @@ class character {
                 result: otherUserIdMentionString + " has DODGED " + userIdMentionString + "'s attack!"
             };
         }
-        let dmgDone = this.weapon.baseDmg * this.dmgMultiplier;
+        let dmgDone = this.weapon.baseDmg * this.dmgMultiplier / opp.dmgReduction;
         opp.hp -= dmgDone;
         // this.lastAttackTime = Date.now();
         let returnString = '';
@@ -121,18 +161,19 @@ class character {
             challengeModule.endFight(this.userId);
             returnString = userIdMentionString + ' HAS DEFEATED ' + otherUserIdMentionString;
         }
+        let weaponEffectString = this.applyWeaponEffect(opp);
         this.update();
         return {
             success: true,
-            result: returnString
+            result: returnString + (weaponEffectString != '' ? ' Weapon Effect: ' + weaponEffectString : '')
         };
     }
 };
 
 let classComponents = {
     NINJA: Ninja,
-    SOLDIER: 'Soldier',
-    MYSTIC: 'Mystic'
+    SOLDIER: Soldier
+    // MYSTIC: 'Mystic'
 };
 
 // exports.character = character;

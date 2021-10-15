@@ -1,9 +1,9 @@
 exports.DAMAGETYPE = {
     PHYSICAL: 'Physical',
     FIRE: 'Fire',
-    ICE: 'Ice',
-    WIND: 'Wind',
-    LIGHTNING: 'Lightning'
+    // ICE: 'Ice',
+    // WIND: 'Wind',
+    // LIGHTNING: 'Lightning'
     //'Poison' //need damage over time fxnality for this
 };
 

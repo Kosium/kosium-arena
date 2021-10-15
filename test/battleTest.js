@@ -84,8 +84,8 @@ describe('Battle Test', function() {
         await abilityThreeModule.execute(userInteraction);
         await abilityThreeModule.execute(otherUserInteraction);
 
-        for (let i = 0; i < 20; ++i){
-            console.log(i);
+        for (let i = 0; i < 9; ++i){
+            console.log('ROUND: ', i);
             await attackModule.execute(userInteraction);
             await attackModule.execute(otherUserInteraction);
         }

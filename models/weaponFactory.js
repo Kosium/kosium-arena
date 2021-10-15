@@ -15,7 +15,7 @@ let WeaponFactory = function(name, volumeMin, volumeMax, rangeMax){//, damageTyp
         let mass = (Math.ceil(Math.random() * (volumeMax - volumeMin)) + volumeMin) * density;
         // console.log('volmin ', volumeMin, ' vol max ', volumeMax, 'mass: ', mass);
 
-        let damageType = randModule.selectRandomEnum(weaponTraits.DAMAGETYPE);
+        let damageType = randModule.selectRandomEnumKey(weaponTraits.DAMAGETYPE);
 
         let personality = randModule.selectRandomFromArray(weaponTraits.personality);
         let cosmetic = randModule.selectRandomFromArray(weaponTraits.cosmeticAlteration);

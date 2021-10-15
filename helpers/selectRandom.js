@@ -9,3 +9,10 @@ exports.selectRandomEnum = function(enumObj){
     let enumIndex = Math.floor(Math.random() * enums.length);
     return enumObj[enums[enumIndex]];
 };
+
+exports.selectRandomEnumKey = function(enumObj){
+    let enums = Object.keys(enumObj);
+    // console.log('enums keys: ', enums);
+    let enumIndex = Math.floor(Math.random() * enums.length);
+    return enums[enumIndex];
+}
