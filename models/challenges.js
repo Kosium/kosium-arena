@@ -7,7 +7,7 @@ let challengedOpponents = {
 let initUser = function(userId){
     charModules.AllCharacters[userId].xPos = charModules.position.MIDDLE;
     charModules.AllCharacters[userId].hp = 100;
-    charModules.AllCharacters[userId].buffs = [];
+    charModules.AllCharacters[userId].buffsMap = {};
 };
 
 exports.challengeOpponent = function(userId, userIdMentionString, otherUserId, otherUserIdMentionString){
