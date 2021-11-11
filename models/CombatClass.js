@@ -8,9 +8,9 @@ module.exports = function({
     abilityOneDescription,
     abilityTwoDescription,
     abilityThreeDescription,
-    abilityOneClass,
-    abilityTwoClass,
-    abilityThreeClass
+    abilityOne, //changed from abilityOneClass
+    abilityTwo, //changed from abilityTwoClass
+    abilityThree //changed from abilityThreeClass
 }){
     this.name = name;
     this.update = character.update.bind(character);
@@ -24,9 +24,9 @@ module.exports = function({
     this.abilityOneDescription = abilityOneDescription;
     this.abilityTwoDescription = abilityTwoDescription;
     this.abilityOneDescription = abilityThreeDescription;
-    this.abilityOneClass = abilityOneClass;
-    this.abilityTwoClass = abilityTwoClass;
-    this.abilityThreeClass = abilityThreeClass;
+    this.abilityOneClass = abilityOne; //changed from abilityOneClass
+    this.abilityTwoClass = abilityTwo; //changed from abilityTwoClass
+    this.abilityThreeClass = abilityThree; //changed from abilityThreeClass
 
 
     this.toJSON = function(){
