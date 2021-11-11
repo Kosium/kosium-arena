@@ -4,6 +4,7 @@ module.exports = function({
     character,
     abilityOneCooldown,
     abilityTwoCooldown,
+	abilityTwoCharge, // Added for mystic ability two
     abilityThreeCooldown,
     abilityOneDescription,
     abilityTwoDescription,
@@ -19,6 +20,7 @@ module.exports = function({
     this.abilityOneCooldownLeft = 0;
     this.abilityTwoCooldown = abilityTwoCooldown;
     this.abilityTwoCooldownLeft = 0;
+	this.abilityTwoCharge = abilityTwoCharge // Added for mystic ability two
     this.abilityThreeCooldown = abilityThreeCooldown;
     this.abilityThreeCooldownLeft = 0;
     this.abilityOneDescription = abilityOneDescription;
@@ -65,19 +67,36 @@ module.exports = function({
     };
 
     this.abilityTwo = function(otherUserId, otherUserIdMentionString){
-        if (this.abilityTwoCooldownLeft > 0){
-            return {
-                success: false,
-                result: "Ability Two still cooling down for another: " + this.abilityTwoCooldownLeft + " turns."
-            };
-        }
-        this.abilityTwoCooldownLeft = this.abilityTwoCooldown;
-        this.abilityTwoClass(this.char);
-        this.update();
-        return {
-            success: true,
-            result: abilityTwoDescription
-        };
+		if (this.abilityTwoCooldownLeft > 0){
+			return {
+				success: false,
+				result: "Ability Two still cooling down for another: " + this.abilityTwoCooldownLeft + " turns."
+			};
+		}
+		if (this.abilityTwoCharge <= 0){ // Added for mystic ability two
+			this.abilityTwoCooldownLeft = this.abilityTwoCooldown;
+			this.abilityTwoClass(this.char);
+			this.update();
+			if (this.abilityTwoCharge == 0){
+				this.abilityTwoCharge = abilityTwoCharge; // reset charge time
+				return {
+					success: true,
+					result: abilityTwoDescription + "\n FULLY CHARGED! \n[Use \"\/Attack\" to unleash this ability!]"
+				};
+			}
+			return {
+				success: true,
+				result: abilityTwoDescription
+			};
+		}
+		/*****************************
+		* Added for mystic ability two
+		******************************/
+		--this.abilityTwoCharge;
+		return {
+			success: true,
+			result: abilityTwoDescription + "\n[Use \"\/AbilityTwo\" to charge]" + " \n(Charges Needed: " + (1 + this.abilityTwoCharge) + ")"
+		}
     };
     this.abilityTwoInfo = function(){
         return abilityTwoDescription;

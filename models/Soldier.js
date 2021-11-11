@@ -5,6 +5,7 @@ let SoldierData = {
     name: "Soldier",
     abilityOneCooldown: 10,
     abilityTwoCooldown: 8,
+	abilityTwoCharge: -1, // Added for mystic ability two (-1 means there is no charge)
     abilityThreeCooldown: 10,
     abilityOneDescription: "DAMAGE UP: Increase damage by 40% for 2 turns.",
     abilityTwoDescription: "ARMOR UP: Reduce incoming damage by 50% for 2 turns",

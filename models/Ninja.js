@@ -5,9 +5,10 @@ let NinjaData = {
     name: "Ninja",
     abilityOneCooldown: 10,
     abilityTwoCooldown: 8,
+	abilityTwoCharge: -1, // Added for mystic ability two (-1 means there is no charge)
     abilityThreeCooldown: 10,
     abilityOneDescription: "EVADE: +50% dodge chance for two turns.",
-    abilityTwoDescription: "SHADOW BACKSTAB: Disappear for 1 turn causing the enemy attack to miss. Reappear behind the enemy and backstab them dealing 300% damage!",
+    abilityTwoDescription: "SHADOW BACKSTAB: Disappear for 1 turn preventing the enemy from hitting. Attack on your next turn for 300% damage!",
     abilityThreeDescription: "LAST STAND: Increase health by 50 for 4 turns.",
     abilityOne: function(char){
         let dodgeBuff = new buff({
@@ -31,7 +32,7 @@ let NinjaData = {
         let dmgBuff = new buff({
             uniqueName: 'NinjaAbilityTwoDmgMult',
             property: 'dmgMultiplier',
-            delay: 1,
+            //delay: 1, //commented out bc it already takes effect the turn after
             turns: 1,
             buffValue: 2,
             char: char

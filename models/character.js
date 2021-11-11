@@ -1,9 +1,11 @@
 const weaponFactories = require('./weaponFactoryData');
+const weaponTraits = require('./weaponTraits'); //Added for Mystic Ability Three
 const randModule = require('../helpers/selectRandom');
 const { runInThisContext } = require('vm');
 const challengeModule = require('../models/challenges');
 const Ninja = require('./Ninja');
 const Soldier = require('./Soldier');
+const Mystic = require('./Mystic');
 const buff = require('./buff');
 const weaponModule = require('./weapon');
 
@@ -45,6 +47,12 @@ class character {
         this.myTurn = false;
         this.class = new classComponents[classKeys[randomClassIndex]](this);
     }
+
+	//Added for Mystic Ability Three
+	changeWeaponType(){
+		this.weapon.damageType = randModule.selectRandomEnumKey(weaponTraits.DAMAGETYPE);
+		return;
+	}
 
     damageTypeDebuffsCount(){
         let numDmgTypeDebuffs = 0;
@@ -172,8 +180,8 @@ class character {
 
 let classComponents = {
     NINJA: Ninja,
-    SOLDIER: Soldier
-    // MYSTIC: 'Mystic'
+    SOLDIER: Soldier,
+    MYSTIC: Mystic
 };
 
 // exports.character = character;
