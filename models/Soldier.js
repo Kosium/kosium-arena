@@ -10,7 +10,7 @@ let SoldierData = {
     abilityOneDescription: "DAMAGE UP: Increase damage by 40% for 2 turns.",
     abilityTwoDescription: "ARMOR UP: Reduce incoming damage by 50% for 2 turns",
     abilityThreeDescription: "ADAPT: Increase damage by 50% for every damage type currently applied for 3 turns. (This effect is increased for each damage type debuff.)",
-    abilityOneClass: function(char){
+    abilityOne: function(char){
         let dmgBuff = new buff({
             uniqueName: 'SoldierAbilityOneDamage',
             property: 'dmgMultiplier',
@@ -21,7 +21,7 @@ let SoldierData = {
         char.addBuff(dmgBuff);
         // dmgBuff.applyBuff();
     },
-    abilityTwoClass: function(char){
+    abilityTwo: function(char){
         let armorBuff = new buff({
             uniqueName: 'SoldierAbilityTwoArmor',
             property: 'dmgReduction',
@@ -32,7 +32,7 @@ let SoldierData = {
         char.addBuff(armorBuff);
         // armorBuff.applyBuff();
     },
-    abilityThreeClass: function(char){
+    abilityThree: function(char){
         let numDebuffs = char.damageTypeDebuffsCount();
         let adaptBuff = new buff({
             uniqueName: 'SoldierAbilityThreeAdapt',
