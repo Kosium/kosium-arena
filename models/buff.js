@@ -6,7 +6,7 @@ module.exports = function({uniqueName, property, turns, delay = -1, buffValue, c
     this.turns = turns; 
     this.delay = delay;
     delay > -1 ? ++this.delay : ++this.turns; //because update is called after buff is applied at first
-    console.log('turns: ', this.turns);
+    // console.log('turns: ', this.turns);
     this.buffValue = buffValue;
     this.char = char;
     this.applied = false;

@@ -11,6 +11,7 @@ module.exports = {
         let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
         if (buildSetup.buildStatus == buildSetup.buildOptions.PROD && !characterModule.AllCharacters[userId].myTurn){
             await interaction.reply("Not my turn!");
+            return;
         }
         let xPos = characterModule.AllCharacters[userId].moveUp(1);
 		await interaction.reply(interaction.user.toString() + ' is at xPos: ' + xPos);

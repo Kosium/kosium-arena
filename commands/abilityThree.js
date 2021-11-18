@@ -13,7 +13,8 @@ module.exports = {
         let otherUserData = interaction.options.get('user').user;
         let otherUserId = otherUserData.username + '#' + otherUserData.discriminator + interaction.channelId;
         if (buildSetup.buildStatus == buildSetup.buildOptions.PROD && !characterModule.AllCharacters[userId].myTurn){
-            return "Not my turn!";
+            await interaction.reply('Not my turn!');
+            return;
         }
 
         if (!challenges.usersAreFighting(userId, otherUserId)){
