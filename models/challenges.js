@@ -65,11 +65,17 @@ exports.doneWithTurn = function(userId){
 };
 
 exports.endFight = function(userId){
+    let otherUserId;
+    if (challengedOpponents.hasOwnProperty(userId)){
+        otherUserId = challengedOpponents[userId];
+    }
+    else {
+        throw 'Cant end fight because no one is challenged';
+    }
     if (!charModules.AllCharacters.hasOwnProperty(userId) || !charModules.AllCharacters.hasOwnProperty(otherUserId)){
-        console.log('tried to end fight/surrender but there is no fight to end');
+        throw 'Tried to end fight/surrender but there is no fight to end';
         return;
     }
-    let otherUserId = challengedOpponents[userId];
     charModules.AllCharacters[userId].removeBuffs();
     charModules.AllCharacters[otherUserId].removeBuffs();
     delete challengedOpponents[userId];

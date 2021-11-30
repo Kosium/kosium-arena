@@ -9,7 +9,14 @@ module.exports = {
 		.setDescription('Surrenders.'),
 	async execute(interaction) {
         let userId = interaction.user.username + '#' + interaction.user.discriminator + interaction.channelId;
-        challengeModule.endFight(userId);
+		try{
+			challengeModule.endFight(userId);
+		}
+		catch (e){
+			console.log(e);
+			await interaction.reply('There was a tiny error surrendering. Our greasy devs will fix ty :)')
+			return;
+		}
 		await interaction.reply(userId + ' has surrendered!');
 	},
 };
