@@ -1,10 +1,12 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { token, guildId } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+const makeWhitelist = require('./helpers/makeWhitelist');
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -13,8 +15,17 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', () => {
+client.once('ready', async () => {
 	console.log('Ready!');
+	const guild = await client.guilds.fetch(guildId);
+	var allMembers = await guild.members.list({limit: 1000});
+	let lowestId = 0;
+	for (let i = 0; i < 5; ++i){
+		let collection_i = await guild.members.list({limit: 920, after: lowestId});
+		lowestId = collection_i.last().id;
+		allMembers = allMembers.concat(collection_i);
+	}
+	await makeWhitelist(allMembers, client);
 });
 
 client.on('interactionCreate', async interaction => {
