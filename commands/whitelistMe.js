@@ -16,7 +16,8 @@ module.exports = {
             var whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
             whitelist[userId] = address;
             fs.writeFileSync(whitelistPath, JSON.stringify(whitelist, null, 4));
-            await interaction.reply('Just whitelisted ' + address + ' for userId: ' + userId);
+            await interaction.reply('UserId: ' + userId + ' has been added to the queue with address: ' + address + 
+            '. Please wait for Blingus to Whitelist you before minting, and please check with the "Am I Whitelisted" website button first before minting. Thank you for your patience!' );
             return;
         }
         else {
